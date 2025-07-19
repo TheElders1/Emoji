@@ -191,7 +191,10 @@ function App() {
           />
         );
       case 'minigames':
-        return <MiniGamesPage />;
+        return <MiniGamesPage onEarnCoins={(amount) => {
+          setCoins(prev => prev + amount);
+          setTotalEarned(prev => prev + amount);
+        }} />;
       case 'tasks':
         return (
           <TasksPage

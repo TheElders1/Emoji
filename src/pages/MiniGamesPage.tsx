@@ -1,8 +1,21 @@
 import React, { useState } from 'react';
 import { Gamepad2, Star, Trophy, Brain, Zap } from 'lucide-react';
+import GuessEmojiStory from '../components/minigames/GuessEmojiStory';
+import EmojiQuiz from '../components/minigames/EmojiQuiz';
+import EmojiMemoryGame from '../components/minigames/EmojiMemoryGame';
+import EmojiRiddles from '../components/minigames/EmojiRiddles';
+import EmojiAssociation from '../components/minigames/EmojiAssociation';
+import EmojiTrivia from '../components/minigames/EmojiTrivia';
+import EmojiBingo from '../components/minigames/EmojiBingo';
+import EmojiPatternRecognition from '../components/minigames/EmojiPatternRecognition';
 
-const MiniGamesPage: React.FC = () => {
+interface MiniGamesPageProps {
+  onEarnCoins: (amount: number) => void;
+}
+
+const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
   const [selectedGame, setSelectedGame] = useState<number | null>(null);
+  const [activeGame, setActiveGame] = useState<string | null>(null);
 
   const games = [
     {
@@ -11,7 +24,8 @@ const MiniGamesPage: React.FC = () => {
       description: 'Decode emoji stories and scenarios',
       icon: '📖',
       difficulty: 'Easy',
-      reward: 50
+      reward: 50,
+      component: 'GuessEmojiStory'
     },
     {
       id: 2,
@@ -19,7 +33,8 @@ const MiniGamesPage: React.FC = () => {
       description: 'Guess movies, songs, and books from emojis',
       icon: '🎬',
       difficulty: 'Medium',
-      reward: 100
+      reward: 100,
+      component: 'EmojiQuiz'
     },
     {
       id: 3,
@@ -27,7 +42,8 @@ const MiniGamesPage: React.FC = () => {
       description: 'Match pairs of emojis in this classic memory game',
       icon: '🧠',
       difficulty: 'Easy',
-      reward: 75
+      reward: 75,
+      component: 'EmojiMemoryGame'
     },
     {
       id: 4,
@@ -35,7 +51,8 @@ const MiniGamesPage: React.FC = () => {
       description: 'Solve challenging riddles represented through emojis',
       icon: '🔍',
       difficulty: 'Hard',
-      reward: 150
+      reward: 150,
+      component: 'EmojiRiddles'
     },
     {
       id: 5,
@@ -43,7 +60,8 @@ const MiniGamesPage: React.FC = () => {
       description: 'Connect related emojis in this quick-thinking game',
       icon: '🔗',
       difficulty: 'Medium',
-      reward: 100
+      reward: 100,
+      component: 'EmojiAssociation'
     },
     {
       id: 6,
@@ -51,7 +69,8 @@ const MiniGamesPage: React.FC = () => {
       description: 'Identify patterns in emoji sequences',
       icon: '🧩',
       difficulty: 'Hard',
-      reward: 200
+      reward: 200,
+      component: 'EmojiPatternRecognition'
     },
     {
       id: 7,
@@ -59,7 +78,8 @@ const MiniGamesPage: React.FC = () => {
       description: 'Answer trivia questions with emoji answers',
       icon: '❓',
       difficulty: 'Medium',
-      reward: 125
+      reward: 125,
+      component: 'EmojiTrivia'
     },
     {
       id: 8,
@@ -67,7 +87,8 @@ const MiniGamesPage: React.FC = () => {
       description: 'Mark off emojis as they are called out',
       icon: '🎯',
       difficulty: 'Easy',
-      reward: 60
+      reward: 60,
+      component: 'EmojiBingo'
     }
   ];
 
@@ -78,6 +99,23 @@ const MiniGamesPage: React.FC = () => {
       case 'Hard': return 'text-red-400 bg-red-400/20';
       default: return 'text-gray-400 bg-gray-400/20';
     }
+  };
+
+  const handleGameSelect = (game: any) => {
+    if (game.component) {
+      setActiveGame(game.component);
+    } else {
+      setSelectedGame(game.id);
+    }
+  };
+
+  const handleGameComplete = (score: number) => {
+    onEarnCoins(score);
+    setActiveGame(null);
+  };
+
+  const handleGameClose = () => {
+    setActiveGame(null);
   };
 
   return (
@@ -96,7 +134,7 @@ const MiniGamesPage: React.FC = () => {
             <div
               key={game.id}
               className="bg-white/10 rounded-xl p-4 border border-white/20 hover:bg-white/20 transition-all duration-200 cursor-pointer group"
-              onClick={() => setSelectedGame(game.id)}
+              onClick={() => handleGameSelect(game)}
             >
               <div className="text-center mb-3">
                 <div className="text-4xl mb-2">{game.icon}</div>
@@ -169,6 +207,32 @@ const MiniGamesPage: React.FC = () => {
             </button>
           </div>
         </div>
+      )}
+
+      {/* Active Game Components */}
+      {activeGame === 'GuessEmojiStory' && (
+        <GuessEmojiStory onComplete={handleGameComplete} onClose={handleGameClose} />
+      )}
+      {activeGame === 'EmojiQuiz' && (
+        <EmojiQuiz onComplete={handleGameComplete} onClose={handleGameClose} />
+      )}
+      {activeGame === 'EmojiMemoryGame' && (
+        <EmojiMemoryGame onComplete={handleGameComplete} onClose={handleGameClose} />
+      )}
+      {activeGame === 'EmojiRiddles' && (
+        <EmojiRiddles onComplete={handleGameComplete} onClose={handleGameClose} />
+      )}
+      {activeGame === 'EmojiAssociation' && (
+        <EmojiAssociation onComplete={handleGameComplete} onClose={handleGameClose} />
+      )}
+      {activeGame === 'EmojiTrivia' && (
+        <EmojiTrivia onComplete={handleGameComplete} onClose={handleGameClose} />
+      )}
+      {activeGame === 'EmojiBingo' && (
+        <EmojiBingo onComplete={handleGameComplete} onClose={handleGameClose} />
+      )}
+      {activeGame === 'EmojiPatternRecognition' && (
+        <EmojiPatternRecognition onComplete={handleGameComplete} onClose={handleGameClose} />
       )}
     </div>
   );
