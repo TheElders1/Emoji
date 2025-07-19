@@ -1,10 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Coins, Zap, TrendingUp, Users, Trophy, Star } from 'lucide-react';
-import CoinTapper from './components/CoinTapper';
-import UpgradeCard from './components/UpgradeCard';
-import StatsPanel from './components/StatsPanel';
 import Header from './components/Header';
-import TelegramIntegration from './components/TelegramIntegration';
+import Navigation from './components/Navigation';
+import TapPage from './pages/TapPage';
+import MiniGamesPage from './pages/MiniGamesPage';
+import TasksPage from './pages/TasksPage';
+import RankPage from './pages/RankPage';
+import WarPage from './pages/WarPage';
+import { GameState, User } from './types/game';
+import { saveUserData, loadUserData } from './utils/storage';
+import telegramBot from './services/telegramBot';
 
 interface Upgrade {
   id: string;
@@ -18,12 +23,15 @@ interface Upgrade {
 }
 
 function App() {
+  const [currentPage, setCurrentPage] = useState<GameState['currentPage']>('tap');
   const [coins, setCoins] = useState(0);
   const [coinsPerTap, setCoinsPerTap] = useState(1);
   const [coinsPerSecond, setCoinsPerSecond] = useState(0);
   const [totalTaps, setTotalTaps] = useState(0);
   const [totalEarned, setTotalEarned] = useState(0);
   const [level, setLevel] = useState(1);
+  const [referrals, setReferrals] = useState(0);
+  const [completedTasks, setCompletedTasks] = useState<string[]>([]);
 
   const [upgrades, setUpgrades] = useState<Upgrade[]>([
     {
@@ -63,6 +71,47 @@ function App() {
       owned: 0
     }
   ]);
+
+  // Load user data on component mount
+  useEffect(() => {
+    const savedUser = loadUserData();
+    if (savedUser) {
+      setCoins(savedUser.coins);
+      setTotalTaps(savedUser.totalTaps);
+      setTotalEarned(savedUser.totalEarned);
+      setReferrals(savedUser.referrals);
+      setCompletedTasks(savedUser.completedTasks);
+      
+      // Recalculate derived values
+      const newLevel = Math.floor(savedUser.totalEarned / 1000) + 1;
+      setLevel(newLevel);
+    }
+
+    // Get Telegram user info
+    const telegramUser = telegramBot.getTelegramUser();
+    if (telegramUser) {
+      console.log('Telegram user detected:', telegramUser);
+    }
+  }, []);
+
+  // Save user data whenever it changes
+  useEffect(() => {
+    const userData: User = {
+      telegramId: telegramBot.getTelegramUser()?.id,
+      username: telegramBot.getTelegramUser()?.username,
+      firstName: telegramBot.getTelegramUser()?.first_name,
+      coins,
+      level,
+      totalTaps,
+      totalEarned,
+      referrals,
+      rank: 'Rookie', // Will be calculated based on totalEarned
+      joinedChannels: [],
+      completedTasks
+    };
+    
+    saveUserData(userData);
+  }, [coins, level, totalTaps, totalEarned, referrals, completedTasks]);
 
   // Auto-earning effect
   useEffect(() => {
@@ -117,58 +166,58 @@ function App() {
     }));
   }, [coins]);
 
+  const handleCompleteTask = useCallback((taskId: string, reward: number) => {
+    if (!completedTasks.includes(taskId)) {
+      setCompletedTasks(prev => [...prev, taskId]);
+      setCoins(prev => prev + reward);
+      setTotalEarned(prev => prev + reward);
+    }
+  }, [completedTasks]);
+
+  const renderCurrentPage = () => {
+    switch (currentPage) {
+      case 'tap':
+        return (
+          <TapPage
+            coins={coins}
+            coinsPerTap={coinsPerTap}
+            coinsPerSecond={coinsPerSecond}
+            totalTaps={totalTaps}
+            totalEarned={totalEarned}
+            level={level}
+            upgrades={upgrades}
+            onTap={handleTap}
+            onUpgrade={handleUpgrade}
+          />
+        );
+      case 'minigames':
+        return <MiniGamesPage />;
+      case 'tasks':
+        return (
+          <TasksPage
+            referrals={referrals}
+            completedTasks={completedTasks}
+            onCompleteTask={handleCompleteTask}
+          />
+        );
+      case 'rank':
+        return <RankPage totalEarned={totalEarned} level={level} />;
+      case 'war':
+        return <WarPage level={level} totalEarned={totalEarned} />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white pb-20">
       <Header coins={coins} level={level} />
       
       <main className="container mx-auto px-4 py-6 max-w-6xl">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Game Area */}
-          <div className="lg:col-span-2 space-y-6">
-            <CoinTapper 
-              coins={coins} 
-              coinsPerTap={coinsPerTap} 
-              onTap={handleTap} 
-            />
-            
-            <StatsPanel 
-              totalTaps={totalTaps}
-              totalEarned={totalEarned}
-              coinsPerSecond={coinsPerSecond}
-              level={level}
-            />
-          </div>
-
-          {/* Upgrades Panel */}
-          <div className="space-y-4">
-            <TelegramIntegration 
-              gameStats={{
-                coins,
-                level,
-                totalTaps,
-                totalEarned
-              }}
-            />
-            
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
-              <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                <Trophy className="w-6 h-6 text-yellow-400" />
-                Upgrades
-              </h2>
-              <div className="space-y-3">
-                {upgrades.map((upgrade) => (
-                  <UpgradeCard
-                    key={upgrade.id}
-                    upgrade={upgrade}
-                    canAfford={coins >= upgrade.cost}
-                    onUpgrade={() => handleUpgrade(upgrade.id)}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+        {renderCurrentPage()}
       </main>
+      
+      <Navigation currentPage={currentPage} onPageChange={setCurrentPage} />
     </div>
   );
 }
