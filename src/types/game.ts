@@ -10,6 +10,9 @@ export interface User {
   rank: string;
   joinedChannels: string[];
   completedTasks: string[];
+  coinsPerTap: number;
+  coinsPerSecond: number;
+  upgrades: any[];
 }
 
 export interface GameState {

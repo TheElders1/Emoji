@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   define: {
-    'import.meta.env.VITE_TELEGRAM_BOT_TOKEN': JSON.stringify(process.env.TELEGRAM_BOT_TOKEN || '8015335327:AAER_k1-PLGHKldW-9YkTehKUTHztA_T8iY')
+    'import.meta.env.VITE_TELEGRAM_BOT_TOKEN': JSON.stringify(process.env.TELEGRAM_BOT_TOKEN || '7249135652:AAG1VV2jiv1mYB1QRkuIwKMHvR3QfysRWKo')
   },
   optimizeDeps: {
     exclude: ['lucide-react'],

@@ -111,6 +111,15 @@ const TasksPage: React.FC<TasksPageProps> = ({ referrals, completedTasks, onComp
       link: 'https://youtube.com/@emojikombat?si=EJ5HBP3n7fqmFzyS',
       completed: completedTasks.includes('subscribe_youtube')
     }
+    {
+      id: 'subscribe_memers',
+      title: 'Subscribe to Memers Channel',
+      description: 'Subscribe to our Memers emoji channel',
+      reward: 3500,
+      type: 'social',
+      link: 'https://youtube.com/@memersemoji?si=PoSzhBW1zK61r6aw',
+      completed: completedTasks.includes('subscribe_memers')
+    }
   ]);
 
   const handleTaskClick = (task: Task) => {

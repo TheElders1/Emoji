@@ -8,7 +8,7 @@ import TasksPage from './pages/TasksPage';
 import RankPage from './pages/RankPage';
 import WarPage from './pages/WarPage';
 import { GameState, User } from './types/game';
-import { saveUserData, loadUserData } from './utils/storage';
+import { saveUserData, loadUserData, saveUpgrades, loadUpgrades, saveGameProgress, loadGameProgress } from './utils/storage';
 import telegramBot from './services/telegramBot';
 
 interface Upgrade {
@@ -75,16 +75,30 @@ function App() {
   // Load user data on component mount
   useEffect(() => {
     const savedUser = loadUserData();
+    const savedUpgrades = loadUpgrades();
+    const savedProgress = loadGameProgress();
+    
     if (savedUser) {
       setCoins(savedUser.coins);
       setTotalTaps(savedUser.totalTaps);
       setTotalEarned(savedUser.totalEarned);
       setReferrals(savedUser.referrals);
       setCompletedTasks(savedUser.completedTasks);
+      setCoinsPerTap(savedUser.coinsPerTap || 1);
+      setCoinsPerSecond(savedUser.coinsPerSecond || 0);
       
       // Recalculate derived values
       const newLevel = Math.floor(savedUser.totalEarned / 1000) + 1;
       setLevel(newLevel);
+    }
+    
+    if (savedUpgrades) {
+      setUpgrades(savedUpgrades);
+    }
+    
+    if (savedProgress) {
+      setCoinsPerTap(savedProgress.coinsPerTap || 1);
+      setCoinsPerSecond(savedProgress.coinsPerSecond || 0);
     }
 
     // Get Telegram user info
@@ -107,11 +121,23 @@ function App() {
       referrals,
       rank: 'Rookie', // Will be calculated based on totalEarned
       joinedChannels: [],
-      completedTasks
+      completedTasks,
+      coinsPerTap,
+      coinsPerSecond,
+      upgrades
     };
     
     saveUserData(userData);
-  }, [coins, level, totalTaps, totalEarned, referrals, completedTasks]);
+    
+    // Save upgrades separately
+    saveUpgrades(upgrades);
+    
+    // Save game progress
+    saveGameProgress({
+      coinsPerTap,
+      coinsPerSecond
+    });
+  }, [coins, level, totalTaps, totalEarned, referrals, completedTasks, coinsPerTap, coinsPerSecond, upgrades]);
 
   // Auto-earning effect
   useEffect(() => {

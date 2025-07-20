@@ -16,7 +16,7 @@ class TelegramBotService {
   private baseUrl: string;
 
   constructor() {
-    this.botToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN || '8015335327:AAER_k1-PLGHKldW-9YkTehKUTHztA_T8iY';
+    this.botToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN || '7249135652:AAG1VV2jiv1mYB1QRkuIwKMHvR3QfysRWKo';
     this.baseUrl = `https://api.telegram.org/bot${this.botToken}`;
   }
 
