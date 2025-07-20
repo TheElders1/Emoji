@@ -239,10 +239,10 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white pb-20">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white pb-16 sm:pb-20">
       <Header coins={coins} level={level} />
       
-      <main className="container mx-auto px-4 py-6 max-w-6xl">
+      <main className="container mx-auto px-2 sm:px-4 py-4 sm:py-6 max-w-6xl">
         {renderCurrentPage()}
       </main>
       

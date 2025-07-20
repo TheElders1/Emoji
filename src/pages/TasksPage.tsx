@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CheckCircle, Users, MessageCircle, Twitter, Youtube, ExternalLink, Gift } from 'lucide-react';
 import { Task } from '../types/game';
+import youtubeService from '../services/youtubeService';
 
 interface TasksPageProps {
   referrals: number;
@@ -9,6 +10,25 @@ interface TasksPageProps {
 }
 
 const TasksPage: React.FC<TasksPageProps> = ({ referrals, completedTasks, onCompleteTask }) => {
+  const [youtubeVideos, setYoutubeVideos] = useState<any>({ emojikombat: [], memers: [] });
+  const [loadingVideos, setLoadingVideos] = useState(false);
+
+  React.useEffect(() => {
+    loadYouTubeVideos();
+  }, []);
+
+  const loadYouTubeVideos = async () => {
+    setLoadingVideos(true);
+    try {
+      const videos = await youtubeService.getLatestVideos();
+      setYoutubeVideos(videos);
+    } catch (error) {
+      console.error('Failed to load YouTube videos:', error);
+    } finally {
+      setLoadingVideos(false);
+    }
+  };
+
   const [tasks] = useState<Task[]>([
     // Referral Tasks
     {
@@ -110,7 +130,7 @@ const TasksPage: React.FC<TasksPageProps> = ({ referrals, completedTasks, onComp
       type: 'social',
       link: 'https://youtube.com/@emojikombat?si=EJ5HBP3n7fqmFzyS',
       completed: completedTasks.includes('subscribe_youtube')
-    }
+    },
     {
       id: 'subscribe_memers',
       title: 'Subscribe to Memers Channel',
@@ -273,6 +293,76 @@ const TasksPage: React.FC<TasksPageProps> = ({ referrals, completedTasks, onComp
             </div>
           ))}
         </div>
+      </div>
+
+      {/* YouTube Videos Section */}
+      <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+        <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+          <Youtube className="w-6 h-6 text-red-400" />
+          Watch & Earn
+        </h2>
+        
+        {loadingVideos ? (
+          <div className="text-center text-white/60">Loading latest videos...</div>
+        ) : (
+          <div className="space-y-6">
+            {/* Emoji Kombat Videos */}
+            <div>
+              <h3 className="text-lg font-bold text-white mb-3">Emoji Kombat Channel</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {youtubeVideos.emojikombat.map((video: any) => (
+                  <div
+                    key={video.id}
+                    onClick={() => {
+                      window.open(video.url, '_blank');
+                      onCompleteTask(`watch_${video.id}`, video.reward);
+                    }}
+                    className="bg-white/10 rounded-lg p-3 hover:bg-white/20 cursor-pointer transition-all duration-200"
+                  >
+                    <img 
+                      src={video.thumbnail} 
+                      alt={video.title}
+                      className="w-full h-24 object-cover rounded mb-2"
+                    />
+                    <h4 className="text-white font-bold text-sm mb-1">{video.title}</h4>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-white/60">{video.duration}</span>
+                      <span className="text-yellow-400 font-bold">+{video.reward}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Memers Videos */}
+            <div>
+              <h3 className="text-lg font-bold text-white mb-3">Memers Channel</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {youtubeVideos.memers.map((video: any) => (
+                  <div
+                    key={video.id}
+                    onClick={() => {
+                      window.open(video.url, '_blank');
+                      onCompleteTask(`watch_${video.id}`, video.reward);
+                    }}
+                    className="bg-white/10 rounded-lg p-3 hover:bg-white/20 cursor-pointer transition-all duration-200"
+                  >
+                    <img 
+                      src={video.thumbnail} 
+                      alt={video.title}
+                      className="w-full h-24 object-cover rounded mb-2"
+                    />
+                    <h4 className="text-white font-bold text-sm mb-1">{video.title}</h4>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-white/60">{video.duration}</span>
+                      <span className="text-yellow-400 font-bold">+{video.reward}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

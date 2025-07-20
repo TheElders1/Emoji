@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Coins } from 'lucide-react';
+import { getRankTheme } from '../utils/rankThemes';
 
 interface CoinTapperProps {
   coins: number;
   coinsPerTap: number;
+  totalEarned: number;
   onTap: () => void;
 }
 
@@ -14,10 +16,11 @@ interface FloatingCoin {
   value: number;
 }
 
-const CoinTapper: React.FC<CoinTapperProps> = ({ coins, coinsPerTap, onTap }) => {
+const CoinTapper: React.FC<CoinTapperProps> = ({ coins, coinsPerTap, totalEarned, onTap }) => {
   const [isPressed, setIsPressed] = useState(false);
   const [floatingCoins, setFloatingCoins] = useState<FloatingCoin[]>([]);
   const [tapCount, setTapCount] = useState(0);
+  const rankTheme = getRankTheme(totalEarned);
 
   const handleTap = (event: React.MouseEvent) => {
     onTap();
@@ -60,9 +63,9 @@ const CoinTapper: React.FC<CoinTapperProps> = ({ coins, coinsPerTap, onTap }) =>
   };
 
   return (
-    <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20 text-center relative overflow-hidden">
+    <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-4 sm:p-6 lg:p-8 border border-white/20 text-center relative overflow-hidden">
       {/* Background effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-orange-500/10 rounded-3xl" />
+      <div className={`absolute inset-0 bg-gradient-to-br ${rankTheme.gradient}/10 rounded-3xl`} />
       
       {/* Floating coins */}
       {floatingCoins.map((coin) => (
@@ -84,27 +87,28 @@ const CoinTapper: React.FC<CoinTapperProps> = ({ coins, coinsPerTap, onTap }) =>
       ))}
       
       <div className="relative z-20">
-        <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+        <h2 className={`text-2xl sm:text-3xl font-bold mb-2 bg-gradient-to-r ${rankTheme.gradient} bg-clip-text text-transparent`}>
           {formatNumber(coins)} $EMOJI
         </h2>
-        <p className="text-white/60 mb-8">Tap to earn coins!</p>
+        <p className="text-white/60 mb-4 sm:mb-6 lg:mb-8 text-sm sm:text-base">Tap to earn coins!</p>
         
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center mb-4 sm:mb-6 lg:mb-8">
           <button
             onClick={handleTap}
             className={`relative w-64 h-64 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 shadow-2xl transform transition-all duration-150 hover:scale-105 active:scale-95 ${
               isPressed ? 'scale-95 shadow-lg' : 'shadow-2xl'
-            }`}
+            } w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64`}
             style={{
-              filter: 'drop-shadow(0 0 20px rgba(255, 193, 7, 0.5))'
+              filter: `drop-shadow(0 0 20px ${rankTheme.tapGlow})`,
+              background: `linear-gradient(135deg, ${rankTheme.coinGradient.replace('from-', '').replace('to-', ', ')})`
             }}
           >
-            <div className="absolute inset-4 bg-gradient-to-br from-yellow-300 to-orange-400 rounded-full flex items-center justify-center">
-              <Coins className="w-20 h-20 text-white drop-shadow-lg" />
+            <div className={`absolute inset-3 sm:inset-4 bg-gradient-to-br ${rankTheme.coinGradient} rounded-full flex items-center justify-center`}>
+              <Coins className="w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 text-white drop-shadow-lg" />
             </div>
             
             {/* Pulse effect */}
-            <div className={`absolute inset-0 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 ${
+            <div className={`absolute inset-0 rounded-full bg-gradient-to-br ${rankTheme.gradient} ${
               isPressed ? 'animate-ping' : ''
             }`} />
           </button>
@@ -112,8 +116,8 @@ const CoinTapper: React.FC<CoinTapperProps> = ({ coins, coinsPerTap, onTap }) =>
         
         <div className="flex items-center justify-center gap-4 text-white/80">
           <div className="text-center">
-            <div className="text-2xl font-bold text-yellow-400">+{coinsPerTap}</div>
-            <div className="text-sm">per tap</div>
+            <div className={`text-xl sm:text-2xl font-bold ${rankTheme.accentColor}`}>+{coinsPerTap}</div>
+            <div className="text-xs sm:text-sm">per tap</div>
           </div>
         </div>
       </div>

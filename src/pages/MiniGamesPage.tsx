@@ -12,6 +12,10 @@ import EmojiPictionary from '../components/minigames/EmojiPictionary';
 import EmojiCharades from '../components/minigames/EmojiCharades';
 import EmojiStoryTelling from '../components/minigames/EmojiStoryTelling';
 import EmojiWordChain from '../components/minigames/EmojiWordChain';
+import EmojiScavengerHunt from '../components/minigames/EmojiScavengerHunt';
+import EmojiCrossword from '../components/minigames/EmojiCrossword';
+import EmojiCreativityChallenge from '../components/minigames/EmojiCreativityChallenge';
+import EmojiMimicry from '../components/minigames/EmojiMimicry';
 
 interface MiniGamesPageProps {
   onEarnCoins: (amount: number) => void;
@@ -129,6 +133,42 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       difficulty: 'Medium',
       reward: 140,
       component: 'EmojiWordChain'
+    },
+    {
+      id: 13,
+      title: 'Emoji Scavenger Hunt',
+      description: 'Find and identify objects represented by emojis',
+      icon: '🔍',
+      difficulty: 'Medium',
+      reward: 120,
+      component: 'EmojiScavengerHunt'
+    },
+    {
+      id: 14,
+      title: 'Emoji Crossword',
+      description: 'Solve crossword puzzles with emoji clues',
+      icon: '📝',
+      difficulty: 'Hard',
+      reward: 160,
+      component: 'EmojiCrossword'
+    },
+    {
+      id: 15,
+      title: 'Emoji Creativity Challenge',
+      description: 'Create art and stories with specific emojis',
+      icon: '🎨',
+      difficulty: 'Hard',
+      reward: 200,
+      component: 'EmojiCreativityChallenge'
+    },
+    {
+      id: 16,
+      title: 'Emoji Mimicry',
+      description: 'Mimic emotions and actions from emojis',
+      icon: '🎪',
+      difficulty: 'Medium',
+      reward: 130,
+      component: 'EmojiMimicry'
     }
   ];
 
@@ -209,22 +249,13 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
         </h2>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { name: 'Emoji Scavenger Hunt', icon: '🔍' },
-            { name: 'Emoji Crossword', icon: '📝' },
-            { name: 'Emoji Creativity Challenge', icon: '🎨' },
-            { name: 'Emoji Mimicry', icon: '🎪' },
-            { name: 'More Games', icon: '🎮' },
-            { name: 'Coming Soon', icon: '🚀' },
-            { name: 'Stay Tuned', icon: '⭐' },
-            { name: 'New Features', icon: '✨' }
-          ].map((game, index) => (
+          {Array(8).fill(null).map((_, index) => (
             <div
               key={index}
               className="bg-white/5 rounded-lg p-3 text-center border border-white/10 opacity-60"
             >
-              <div className="text-2xl mb-1">{game.icon}</div>
-              <div className="text-xs text-white/60">{game.name}</div>
+              <div className="text-2xl mb-1">🚀</div>
+              <div className="text-xs text-white/60">More Games Coming Soon</div>
             </div>
           ))}
         </div>
@@ -285,6 +316,18 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       )}
       {activeGame === 'EmojiWordChain' && (
         <EmojiWordChain onComplete={handleGameComplete} onClose={handleGameClose} />
+      )}
+      {activeGame === 'EmojiScavengerHunt' && (
+        <EmojiScavengerHunt onComplete={handleGameComplete} onClose={handleGameClose} />
+      )}
+      {activeGame === 'EmojiCrossword' && (
+        <EmojiCrossword onComplete={handleGameComplete} onClose={handleGameClose} />
+      )}
+      {activeGame === 'EmojiCreativityChallenge' && (
+        <EmojiCreativityChallenge onComplete={handleGameComplete} onClose={handleGameClose} />
+      )}
+      {activeGame === 'EmojiMimicry' && (
+        <EmojiMimicry onComplete={handleGameComplete} onClose={handleGameClose} />
       )}
     </div>
   );

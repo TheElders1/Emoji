@@ -2,7 +2,6 @@ import React from 'react';
 import CoinTapper from '../components/CoinTapper';
 import UpgradeCard from '../components/UpgradeCard';
 import StatsPanel from '../components/StatsPanel';
-import TelegramIntegration from '../components/TelegramIntegration';
 import { Trophy } from 'lucide-react';
 
 interface TapPageProps {
@@ -29,12 +28,13 @@ const TapPage: React.FC<TapPageProps> = ({
   onUpgrade
 }) => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
       {/* Main Game Area */}
-      <div className="lg:col-span-2 space-y-6">
+      <div className="lg:col-span-2 space-y-4 lg:space-y-6">
         <CoinTapper 
           coins={coins} 
           coinsPerTap={coinsPerTap} 
+          totalEarned={totalEarned}
           onTap={onTap} 
         />
         
@@ -48,15 +48,6 @@ const TapPage: React.FC<TapPageProps> = ({
 
       {/* Upgrades Panel */}
       <div className="space-y-4">
-        <TelegramIntegration 
-          gameStats={{
-            coins,
-            level,
-            totalTaps,
-            totalEarned
-          }}
-        />
-        
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
           <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
             <Trophy className="w-6 h-6 text-yellow-400" />
