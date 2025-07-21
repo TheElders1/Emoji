@@ -11,6 +11,46 @@ import { GameState, User } from './types/game';
 import { saveUserData, loadUserData, saveUpgrades, loadUpgrades, saveGameProgress, loadGameProgress } from './utils/storage';
 import telegramBot from './services/telegramBot';
 
+// Define initial upgrades outside component to avoid cyclic references
+const initialUpgrades: Upgrade[] = [
+  {
+    id: 'tap-power',
+    name: 'Diamond Hands',
+    description: 'Increases coins per tap',
+    cost: 50,
+    multiplier: 1,
+    icon: <Zap className="w-5 h-5" />,
+    owned: 0
+  },
+  {
+    id: 'auto-miner',
+    name: 'Mining Rig',
+    description: 'Earns coins automatically',
+    cost: 200,
+    multiplier: 1,
+    icon: <Coins className="w-5 h-5" />,
+    owned: 0
+  },
+  {
+    id: 'boost-multiplier',
+    name: 'Rocket Boost',
+    description: 'Multiplies all earnings',
+    cost: 1000,
+    multiplier: 1.5,
+    icon: <TrendingUp className="w-5 h-5" />,
+    owned: 0
+  },
+  {
+    id: 'social-power',
+    name: 'Influencer Status',
+    description: 'Massive tap power boost',
+    cost: 5000,
+    multiplier: 10,
+    icon: <Users className="w-5 h-5" />,
+    owned: 0
+  }
+];
+
 interface Upgrade {
   id: string;
   name: string;
@@ -33,44 +73,7 @@ function App() {
   const [referrals, setReferrals] = useState(0);
   const [completedTasks, setCompletedTasks] = useState<string[]>([]);
 
-  const [upgrades, setUpgrades] = useState<Upgrade[]>([
-    {
-      id: 'tap-power',
-      name: 'Diamond Hands',
-      description: 'Increases coins per tap',
-      cost: 50,
-      multiplier: 1,
-      icon: <Zap className="w-5 h-5" />,
-      owned: 0
-    },
-    {
-      id: 'auto-miner',
-      name: 'Mining Rig',
-      description: 'Earns coins automatically',
-      cost: 200,
-      multiplier: 1,
-      icon: <Coins className="w-5 h-5" />,
-      owned: 0
-    },
-    {
-      id: 'boost-multiplier',
-      name: 'Rocket Boost',
-      description: 'Multiplies all earnings',
-      cost: 1000,
-      multiplier: 1.5,
-      icon: <TrendingUp className="w-5 h-5" />,
-      owned: 0
-    },
-    {
-      id: 'social-power',
-      name: 'Influencer Status',
-      description: 'Massive tap power boost',
-      cost: 5000,
-      multiplier: 10,
-      icon: <Users className="w-5 h-5" />,
-      owned: 0
-    }
-  ]);
+  const [upgrades, setUpgrades] = useState<Upgrade[]>(initialUpgrades);
 
   // Load user data on component mount
   useEffect(() => {
@@ -93,7 +96,16 @@ function App() {
     }
     
     if (savedUpgrades) {
-      setUpgrades(savedUpgrades);
+      // Merge saved data with initial upgrades to restore icons
+      const restoredUpgrades = initialUpgrades.map(initialUpgrade => {
+        const savedUpgrade = savedUpgrades.find(saved => saved.id === initialUpgrade.id);
+        return savedUpgrade ? {
+          ...initialUpgrade,
+          owned: savedUpgrade.owned,
+          cost: savedUpgrade.cost
+        } : initialUpgrade;
+      });
+      setUpgrades(restoredUpgrades);
     }
     
     if (savedProgress) {
@@ -110,6 +122,9 @@ function App() {
 
   // Save user data whenever it changes
   useEffect(() => {
+    // Create serializable versions of upgrades without React components
+    const serializableUpgrades = upgrades.map(({ icon, ...upgrade }) => upgrade);
+    
     const userData: User = {
       telegramId: telegramBot.getTelegramUser()?.id,
       username: telegramBot.getTelegramUser()?.username,
@@ -124,13 +139,13 @@ function App() {
       completedTasks,
       coinsPerTap,
       coinsPerSecond,
-      upgrades
+      upgrades: serializableUpgrades
     };
     
     saveUserData(userData);
     
     // Save upgrades separately
-    saveUpgrades(upgrades);
+    saveUpgrades(serializableUpgrades);
     
     // Save game progress
     saveGameProgress({
