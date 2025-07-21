@@ -127,6 +127,11 @@ const CoinTapper: React.FC<CoinTapperProps> = ({ coins, totalEarned, onTap }) =>
             <div className="text-xl sm:text-2xl font-bold text-yellow-400">+1</div>
             <div className="text-xs sm:text-sm">per tap</div>
           </div>
+          
+          <div className="text-center">
+            <div className="text-xl sm:text-2xl font-bold text-green-400">0</div>
+            <div className="text-xs sm:text-sm">per second</div>
+          </div>
         </div>
       </div>
       
