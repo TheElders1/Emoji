@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Coins } from 'lucide-react';
+import { getRankTheme } from '../utils/rankThemes';
 
 interface CoinTapperProps {
   coins: number;
@@ -17,6 +18,8 @@ const CoinTapper: React.FC<CoinTapperProps> = ({ coins, totalEarned, onTap }) =>
   const [isPressed, setIsPressed] = useState(false);
   const [floatingCoins, setFloatingCoins] = useState<FloatingCoin[]>([]);
   const [tapCount, setTapCount] = useState(0);
+  
+  const rankTheme = getRankTheme(totalEarned);
   
   // Get rank-based coin color
   const getRankCoinColor = (totalEarned: number) => {
