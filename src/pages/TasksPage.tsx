@@ -115,11 +115,11 @@ const TasksPage: React.FC<TasksPageProps> = ({ referrals, completedTasks, onComp
     },
     {
       id: 'follow_twitter',
-      title: 'Follow on Twitter',
-      description: 'Follow us on Twitter for the latest news',
+      title: 'Follow on X',
+      description: 'Follow us on X for the latest news',
       reward: 3000,
       type: 'social',
-      link: '#', // Will be provided later
+      link: 'https://x.com/EmojiKombat1?t=RzE6j5NbdWBJSStm2mxKkA&s=08',
       completed: completedTasks.includes('follow_twitter')
     },
     {

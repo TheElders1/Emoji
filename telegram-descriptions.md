@@ -4,60 +4,66 @@
 
 **Short Description (120 characters max):**
 ```
-🚀 Emoji Kombat - Tap to earn $EMOJI coins! Level up, unlock upgrades, and become the ultimate emoji master! 💎🌙
+🚀 Emoji Kombat - Hard emoji puzzles & tap-to-earn! 20 brain-bending games await! 🧠💎
 ```
 **Full Description:**
 ```
-🚀 Welcome to Emoji Kombat - Season 1! 🚀
+🚀 Welcome to Emoji Kombat - The Ultimate Emoji Challenge! 🚀
 
-The ultimate tap-to-earn emoji gaming platform that's taking Telegram by storm! 
+The most challenging emoji puzzle platform with 20 hard brain-bending games!
 
-💰 TAP TO EARN $EMOJI COINS
+🧠 20 HARD EMOJI PUZZLE GAMES:
+• 🔐 Emoji Cipher - Decode secret messages
+• 🧩 Equation Solver - Math with emoji variables  
+• 🎯 Logic Grid - Deductive reasoning puzzles
+• 🪞 Mirror Flip - Spatial rotation challenges
+• 💬 Chat Decryption - Decode emoji conversations
+• ⌛ Timed Memory - Rebuild grids under pressure
+• 🔄 Pattern Lock - Color-coded sequences
+• 🔍 Spot Imposter - Find the different emoji
+• 🔠 Anagram Challenge - Rearrange emoji phrases
+• 🔐 Master Code - Crack emoji combinations
+• 🧮 Algebra Maze - Navigate with math
+• 🕵️ Detective - Solve emoji crime scenes
+• 📦 Tetris (No Rotate) - Constrained puzzle
+• 🎲 Sequence Hack - Find missing patterns
+• 🧊 Frozen Tiles - Limited move puzzles
+• 🔂 Reverse Recall - Memory in reverse
+• 🎓 Language Translation - Poetic emoji meaning
+• 🔥 Escape Room - Multi-layered puzzles
+• 🚫 Word Trap - Strategic elimination
+
+💰 SIMPLE TAP-TO-EARN:
 👆 Simple gameplay - just tap the coin!
-🏆 Level up and unlock powerful upgrades
-💎 Diamond Hands, Mining Rigs, Rocket Boosts & more!
-📈 Passive income with auto-miners
-🎯 Compete with friends and climb the leaderboards
-
-🎮 16 EPIC MINI-GAMES:
-• Emoji Quiz & Story Guessing
-• Memory Games & Pattern Recognition  
-• Riddles & Trivia Challenges
-• Pictionary & Charades
-• Creative Challenges & More!
-
-⚔️ PVP WAR ARENA:
-• 1v1 Emoji Battles
-• Tournament Competitions
-• Clan Wars & Team Battles
-• Global Leaderboards
+💰 Earn coins from tapping and puzzles
+🎨 Coin colors change with your rank
+🏆 8-tier ranking system progression
 
 🏆 8-TIER RANKING SYSTEM:
 From Rookie 🥉 to Lord 🌟
-Earn your way to the top!
+Colors change as you progress!
 
 📋 TASKS & REWARDS:
-• Referral bonuses up to 150K coins
-• Social media rewards
-• Daily challenges
-• Community milestones
+• Referral system with massive bonuses
+• YouTube video watching rewards
+• Social media engagement tasks
+• Daily puzzle challenges
 
 🌟 FEATURES:
-• Beautiful space-themed graphics
-• Smooth animations and effects  
-• Progressive upgrade system
-• Achievement tracking
-• Share your stats with friends
-• Level up notifications
-• Real-time data sync
+• 20 unique hard puzzle interfaces
+• Full-screen gaming experience
+• Rank-based visual themes
+• Mobile-optimized design
+• Real-time progress tracking
+• Telegram user integration
 
-Ready to become an emoji millionaire? 
-Start tapping and HODL to the moon! 🌙
+Ready to challenge your brain? 
+These aren't easy games - they're designed to test your intelligence! 🧠
 
 Play now: /start
-Share with friends and earn bonus coins! 💪
+Challenge friends and prove your puzzle mastery! 💪
 
-#EmojiKombat #TapToEarn #EmojiCoin #Crypto #Gaming #MiniGames #PvP
+#EmojiKombat #BrainGames #PuzzleChallenge #EmojiPuzzles #HardGames #TapToEarn
 ```
 
 ## 📢 Telegram Channel Description
@@ -279,32 +285,29 @@ Let's tap our way to the moon together! 🌙💎
 **Command List for BotFather:**
 ```
 start - 🚀 Start playing Emoji Kombat
-stats - 📊 View your game statistics  
-leaderboard - 🏆 See top players
-help - ❓ Get help and game info
-share - 📤 Share your progress
-bonus - 🎁 Claim daily bonus
-minigames - 🎮 View available mini-games
+puzzles - 🧠 View available puzzle games
 rank - 🏆 Check your current rank
-war - ⚔️ Enter PvP battle arena
+help - ❓ Get help and game info
+tap - 💰 Go to tapping arena
 tasks - 📋 View available tasks
+settings - ⚙️ Bot configuration
+about - ℹ️ About Emoji Kombat
 ```
 
 ## 📱 About Section
 
 **About Text:**
 ```
-Emoji Kombat is the ultimate tap-to-earn emoji gaming platform! 
+Emoji Kombat is the ultimate emoji puzzle challenge platform!
 
-🎮 Tap the coin to earn $EMOJI
-🏆 Level up and unlock upgrades
-💎 Build your crypto empire
-🚀 Compete with friends
-🎯 Play 16 exciting mini-games
-⚔️ Battle in PvP arena
-📈 Climb 8-tier ranking system
+🧠 20 hard emoji puzzle games
+💰 Simple tap-to-earn mechanics  
+🎨 Rank-based visual themes
+🏆 8-tier progression system
+📱 Mobile-optimized experience
+🎯 Brain-challenging gameplay
 
-Join millions of players in the emoji gaming revolution!
+Test your intelligence with the hardest emoji puzzles!
 
 Created with 💎 by the Emoji Kombat Team
 ```
@@ -312,13 +315,12 @@ Created with 💎 by the Emoji Kombat Team
 ## 🔗 Useful Links Section
 
 ```
-🎮 Play Game: [Your Game URL]
+🎮 Play Game: https://emoji-kombat.netlify.app/
 📢 Official Channel: @emoji_kombat_channel
 💬 Community: @emoji_kombat_community  
-📺 YouTube: @emojikombat
-📧 Support: support@emojikombat.com
-🌐 Website: emojikombat.com
-🐦 Twitter: [Your Twitter Handle]
+📺 YouTube: @emojikombat & @memersemoji
+🐦 X (Twitter): @EmojiKombat1
+🌐 Website: https://emoji-kombat.netlify.app/
 ```
 
 ## 📋 Setup Instructions

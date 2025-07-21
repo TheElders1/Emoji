@@ -1,191 +1,209 @@
 import React, { useState } from 'react';
 import { Gamepad2, Star, Trophy, Brain, Zap } from 'lucide-react';
-import GuessEmojiStory from '../components/minigames/GuessEmojiStory';
-import EmojiQuiz from '../components/minigames/EmojiQuiz';
-import EmojiMemoryGame from '../components/minigames/EmojiMemoryGame';
-import EmojiRiddles from '../components/minigames/EmojiRiddles';
-import EmojiAssociation from '../components/minigames/EmojiAssociation';
-import EmojiTrivia from '../components/minigames/EmojiTrivia';
-import EmojiBingo from '../components/minigames/EmojiBingo';
-import EmojiPatternRecognition from '../components/minigames/EmojiPatternRecognition';
-import EmojiPictionary from '../components/minigames/EmojiPictionary';
-import EmojiCharades from '../components/minigames/EmojiCharades';
-import EmojiStoryTelling from '../components/minigames/EmojiStoryTelling';
-import EmojiWordChain from '../components/minigames/EmojiWordChain';
-import EmojiScavengerHunt from '../components/minigames/EmojiScavengerHunt';
-import EmojiCrossword from '../components/minigames/EmojiCrossword';
-import EmojiCreativityChallenge from '../components/minigames/EmojiCreativityChallenge';
-import EmojiMimicry from '../components/minigames/EmojiMimicry';
+import EmojiCipher from '../components/minigames/EmojiCipher';
+import EmojiEquationSolver from '../components/minigames/EmojiEquationSolver';
+import EmojiLogicGrid from '../components/minigames/EmojiLogicGrid';
 
 interface MiniGamesPageProps {
   onEarnCoins: (amount: number) => void;
 }
 
 const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
-  const [selectedGame, setSelectedGame] = useState<number | null>(null);
   const [activeGame, setActiveGame] = useState<string | null>(null);
 
   const games = [
     {
       id: 1,
-      title: 'Guess the Emoji Story',
-      description: 'Decode emoji stories and scenarios',
-      icon: '📖',
-      difficulty: 'Easy',
-      reward: 50,
-      component: 'GuessEmojiStory'
+      title: 'Emoji Cipher',
+      description: 'Decode secret messages using emoji alphabet',
+      icon: '🔐',
+      difficulty: 'Hard',
+      reward: 200,
+      component: 'EmojiCipher'
     },
     {
       id: 2,
-      title: 'Emoji Quiz',
-      description: 'Guess movies, songs, and books from emojis',
-      icon: '🎬',
-      difficulty: 'Medium',
-      reward: 100,
-      component: 'EmojiQuiz'
+      title: 'Emoji Equation Solver',
+      description: 'Solve mathematical puzzles with emoji variables',
+      icon: '🧩',
+      difficulty: 'Hard',
+      reward: 300,
+      component: 'EmojiEquationSolver'
     },
     {
       id: 3,
-      title: 'Emoji Memory Game',
-      description: 'Match pairs of emojis in this classic memory game',
-      icon: '🧠',
-      difficulty: 'Easy',
-      reward: 75,
-      component: 'EmojiMemoryGame'
+      title: 'Emoji Logic Grid',
+      description: 'Use deductive reasoning to solve logic puzzles',
+      icon: '🎯',
+      difficulty: 'Hard',
+      reward: 400,
+      component: 'EmojiLogicGrid'
     },
     {
       id: 4,
-      title: 'Emoji Riddles',
-      description: 'Solve challenging riddles represented through emojis',
-      icon: '🔍',
+      title: 'Emoji Sequence Puzzle',
+      description: 'Find hidden patterns in emoji sequences',
+      icon: '🧠',
       difficulty: 'Hard',
-      reward: 150,
-      component: 'EmojiRiddles'
+      reward: 250,
+      component: null
     },
     {
       id: 5,
-      title: 'Emoji Association',
-      description: 'Connect related emojis in this quick-thinking game',
-      icon: '🔗',
-      difficulty: 'Medium',
-      reward: 100,
-      component: 'EmojiAssociation'
+      title: 'Emoji Mirror Flip',
+      description: 'Rotate and flip emojis to match patterns',
+      icon: '🪞',
+      difficulty: 'Hard',
+      reward: 220,
+      component: null
     },
     {
       id: 6,
-      title: 'Emoji Pattern Recognition',
-      description: 'Identify patterns in emoji sequences',
-      icon: '🧩',
+      title: 'Emoji Chat Decryption',
+      description: 'Decode emoji conversations and idioms',
+      icon: '💬',
       difficulty: 'Hard',
-      reward: 200,
-      component: 'EmojiPatternRecognition'
+      reward: 280,
+      component: null
     },
     {
       id: 7,
-      title: 'Emoji Trivia',
-      description: 'Answer trivia questions with emoji answers',
-      icon: '❓',
-      difficulty: 'Medium',
-      reward: 125,
-      component: 'EmojiTrivia'
+      title: 'Timed Emoji Memory',
+      description: 'Rebuild emoji grids from memory under pressure',
+      icon: '⌛',
+      difficulty: 'Hard',
+      reward: 320,
+      component: null
     },
     {
       id: 8,
-      title: 'Emoji Bingo',
-      description: 'Mark off emojis as they are called out',
-      icon: '🎯',
-      difficulty: 'Easy',
-      reward: 60,
-      component: 'EmojiBingo'
+      title: 'Emoji Pattern Lock',
+      description: 'Remember emoji sequences with color coding',
+      icon: '🔄',
+      difficulty: 'Hard',
+      reward: 260,
+      component: null
     },
     {
       id: 9,
-      title: 'Emoji Pictionary',
-      description: 'Draw with emojis and express creativity',
-      icon: '🎨',
-      difficulty: 'Medium',
-      reward: 110,
-      component: 'EmojiPictionary'
+      title: 'Emoji Spot-the-Imposter',
+      description: 'Find the different emoji among similar ones',
+      icon: '🔍',
+      difficulty: 'Hard',
+      reward: 180,
+      component: null
     },
     {
       id: 10,
-      title: 'Emoji Charades',
-      description: 'Act out emojis without speaking',
-      icon: '🎭',
-      difficulty: 'Medium',
-      reward: 130,
-      component: 'EmojiCharades'
+      title: 'Emoji Anagram Challenge',
+      description: 'Rearrange emojis to form meaningful phrases',
+      icon: '🔠',
+      difficulty: 'Hard',
+      reward: 240,
+      component: null
     },
     {
       id: 11,
-      title: 'Emoji Storytelling',
-      description: 'Create stories using emoji prompts',
-      icon: '📚',
+      title: 'Emoji Master Code',
+      description: 'Crack the emoji code using logical elimination',
+      icon: '🔐',
       difficulty: 'Hard',
-      reward: 180,
-      component: 'EmojiStoryTelling'
+      reward: 350,
+      component: null
     },
     {
       id: 12,
-      title: 'Emoji Word Chain',
-      description: 'Connect related words in a chain',
-      icon: '⛓️',
-      difficulty: 'Medium',
-      reward: 140,
-      component: 'EmojiWordChain'
+      title: 'Emoji Algebra Maze',
+      description: 'Navigate paths while solving mathematical equations',
+      icon: '🧮',
+      difficulty: 'Hard',
+      reward: 380,
+      component: null
     },
     {
       id: 13,
-      title: 'Emoji Scavenger Hunt',
-      description: 'Find and identify objects represented by emojis',
-      icon: '🔍',
-      difficulty: 'Medium',
-      reward: 120,
-      component: 'EmojiScavengerHunt'
+      title: 'Emoji Detective',
+      description: 'Solve crime scenes using emoji evidence',
+      icon: '🕵️',
+      difficulty: 'Hard',
+      reward: 420,
+      component: null
     },
     {
       id: 14,
-      title: 'Emoji Crossword',
-      description: 'Solve crossword puzzles with emoji clues',
-      icon: '📝',
+      title: 'Emoji Tetris (No Rotate)',
+      description: 'Play Tetris with emojis but no rotation allowed',
+      icon: '📦',
       difficulty: 'Hard',
-      reward: 160,
-      component: 'EmojiCrossword'
+      reward: 300,
+      component: null
     },
     {
       id: 15,
-      title: 'Emoji Creativity Challenge',
-      description: 'Create art and stories with specific emojis',
-      icon: '🎨',
+      title: 'Emoji Sequence Hack',
+      description: 'Find missing emojis in complex sequences',
+      icon: '🎲',
       difficulty: 'Hard',
-      reward: 200,
-      component: 'EmojiCreativityChallenge'
+      reward: 290,
+      component: null
     },
     {
       id: 16,
-      title: 'Emoji Mimicry',
-      description: 'Mimic emotions and actions from emojis',
-      icon: '🎪',
-      difficulty: 'Medium',
-      reward: 130,
-      component: 'EmojiMimicry'
+      title: 'Frozen Emoji Tiles',
+      description: 'Slide frozen tiles with limited moves',
+      icon: '🧊',
+      difficulty: 'Hard',
+      reward: 270,
+      component: null
+    },
+    {
+      id: 17,
+      title: 'Emoji Reverse Recall',
+      description: 'Remember and tap emojis in reverse order',
+      icon: '🔂',
+      difficulty: 'Hard',
+      reward: 230,
+      component: null
+    },
+    {
+      id: 18,
+      title: 'Emoji Language Translation',
+      description: 'Translate emoji poetry to full sentences',
+      icon: '🎓',
+      difficulty: 'Hard',
+      reward: 360,
+      component: null
+    },
+    {
+      id: 19,
+      title: 'Emoji Escape Room',
+      description: 'Solve layered puzzles to escape emoji rooms',
+      icon: '🔥',
+      difficulty: 'Hard',
+      reward: 450,
+      component: null
+    },
+    {
+      id: 20,
+      title: 'Emoji Word Trap',
+      description: 'Guess phrases while avoiding trap letters',
+      icon: '🚫',
+      difficulty: 'Hard',
+      reward: 340,
+      component: null
     }
   ];
 
   const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'Easy': return 'text-green-400 bg-green-400/20';
-      case 'Medium': return 'text-yellow-400 bg-yellow-400/20';
-      case 'Hard': return 'text-red-400 bg-red-400/20';
-      default: return 'text-gray-400 bg-gray-400/20';
-    }
+    return 'text-red-400 bg-red-400/20';
   };
 
   const handleGameSelect = (game: any) => {
     if (game.component) {
       setActiveGame(game.component);
     } else {
-      setSelectedGame(game.id);
+      // Show coming soon modal for unimplemented games
+      alert(`${game.title} is coming soon! This advanced puzzle game is currently in development.`);
     }
   };
 
@@ -202,28 +220,28 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
     <div className="space-y-6">
       <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
         <div className="flex items-center gap-3 mb-6">
-          <Gamepad2 className="w-8 h-8 text-purple-400" />
+          <Brain className="w-8 h-8 text-purple-400" />
           <div>
-            <h1 className="text-3xl font-bold text-white">Mini Games</h1>
-            <p className="text-white/60">Play emoji games and earn rewards!</p>
+            <h1 className="text-3xl font-bold text-white">Hard Emoji Puzzles</h1>
+            <p className="text-white/60">Challenge your mind with these brain-bending emoji games!</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {games.map((game) => (
             <div
               key={game.id}
-              className="bg-white/10 rounded-xl p-4 border border-white/20 hover:bg-white/20 transition-all duration-200 cursor-pointer group"
+              className="bg-white/10 rounded-xl p-4 border border-white/20 hover:bg-white/20 transition-all duration-200 cursor-pointer group transform hover:scale-105"
               onClick={() => handleGameSelect(game)}
             >
               <div className="text-center mb-3">
                 <div className="text-4xl mb-2">{game.icon}</div>
-                <h3 className="font-bold text-white group-hover:text-yellow-400 transition-colors">
+                <h3 className="font-bold text-white group-hover:text-yellow-400 transition-colors text-sm">
                   {game.title}
                 </h3>
               </div>
               
-              <p className="text-sm text-white/60 mb-3 text-center">
+              <p className="text-xs text-white/60 mb-3 text-center line-clamp-2">
                 {game.description}
               </p>
               
@@ -232,102 +250,62 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
                   {game.difficulty}
                 </span>
                 <div className="flex items-center gap-1 text-yellow-400">
-                  <Star className="w-4 h-4" />
-                  <span className="text-sm font-bold">{game.reward}</span>
+                  <Star className="w-3 h-3" />
+                  <span className="text-xs font-bold">{game.reward}</span>
                 </div>
               </div>
+              
+              {!game.component && (
+                <div className="mt-2 text-center">
+                  <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded-full">
+                    Coming Soon
+                  </span>
+                </div>
+              )}
             </div>
           ))}
         </div>
       </div>
 
-      {/* Coming Soon Games */}
+      {/* Game Stats */}
       <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
         <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-          <Zap className="w-6 h-6 text-yellow-400" />
-          Coming Soon
+          <Trophy className="w-6 h-6 text-yellow-400" />
+          Puzzle Challenge Stats
         </h2>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {Array(8).fill(null).map((_, index) => (
-            <div
-              key={index}
-              className="bg-white/5 rounded-lg p-3 text-center border border-white/10 opacity-60"
-            >
-              <div className="text-2xl mb-1">🚀</div>
-              <div className="text-xs text-white/60">More Games Coming Soon</div>
-            </div>
-          ))}
+          <div className="bg-white/10 rounded-lg p-3 text-center">
+            <div className="text-2xl font-bold text-red-400">20</div>
+            <div className="text-xs text-white/60">Total Puzzles</div>
+          </div>
+          
+          <div className="bg-white/10 rounded-lg p-3 text-center">
+            <div className="text-2xl font-bold text-yellow-400">3</div>
+            <div className="text-xs text-white/60">Available Now</div>
+          </div>
+          
+          <div className="bg-white/10 rounded-lg p-3 text-center">
+            <div className="text-2xl font-bold text-green-400">Hard</div>
+            <div className="text-xs text-white/60">Difficulty</div>
+          </div>
+          
+          <div className="bg-white/10 rounded-lg p-3 text-center">
+            <div className="text-2xl font-bold text-purple-400">450</div>
+            <div className="text-xs text-white/60">Max Reward</div>
+          </div>
         </div>
       </div>
 
-      {selectedGame && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 max-w-md w-full">
-            <h3 className="text-2xl font-bold text-white mb-4 text-center">
-              Game Coming Soon! 🚀
-            </h3>
-            <p className="text-white/60 text-center mb-6">
-              This mini-game is currently in development. Stay tuned for updates!
-            </p>
-            <button
-              onClick={() => setSelectedGame(null)}
-              className="w-full bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 rounded-lg transition-colors"
-            >
-              Got it!
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* Active Game Components */}
-      {activeGame === 'GuessEmojiStory' && (
-        <GuessEmojiStory onComplete={handleGameComplete} onClose={handleGameClose} />
+      {activeGame === 'EmojiCipher' && (
+        <EmojiCipher onComplete={handleGameComplete} onClose={handleGameClose} />
       )}
-      {activeGame === 'EmojiQuiz' && (
-        <EmojiQuiz onComplete={handleGameComplete} onClose={handleGameClose} />
+      {activeGame === 'EmojiEquationSolver' && (
+        <EmojiEquationSolver onComplete={handleGameComplete} onClose={handleGameClose} />
       )}
-      {activeGame === 'EmojiMemoryGame' && (
-        <EmojiMemoryGame onComplete={handleGameComplete} onClose={handleGameClose} />
-      )}
-      {activeGame === 'EmojiRiddles' && (
-        <EmojiRiddles onComplete={handleGameComplete} onClose={handleGameClose} />
-      )}
-      {activeGame === 'EmojiAssociation' && (
-        <EmojiAssociation onComplete={handleGameComplete} onClose={handleGameClose} />
-      )}
-      {activeGame === 'EmojiTrivia' && (
-        <EmojiTrivia onComplete={handleGameComplete} onClose={handleGameClose} />
-      )}
-      {activeGame === 'EmojiBingo' && (
-        <EmojiBingo onComplete={handleGameComplete} onClose={handleGameClose} />
-      )}
-      {activeGame === 'EmojiPatternRecognition' && (
-        <EmojiPatternRecognition onComplete={handleGameComplete} onClose={handleGameClose} />
-      )}
-      {activeGame === 'EmojiPictionary' && (
-        <EmojiPictionary onComplete={handleGameComplete} onClose={handleGameClose} />
-      )}
-      {activeGame === 'EmojiCharades' && (
-        <EmojiCharades onComplete={handleGameComplete} onClose={handleGameClose} />
-      )}
-      {activeGame === 'EmojiStoryTelling' && (
-        <EmojiStoryTelling onComplete={handleGameComplete} onClose={handleGameClose} />
-      )}
-      {activeGame === 'EmojiWordChain' && (
-        <EmojiWordChain onComplete={handleGameComplete} onClose={handleGameClose} />
-      )}
-      {activeGame === 'EmojiScavengerHunt' && (
-        <EmojiScavengerHunt onComplete={handleGameComplete} onClose={handleGameClose} />
-      )}
-      {activeGame === 'EmojiCrossword' && (
-        <EmojiCrossword onComplete={handleGameComplete} onClose={handleGameClose} />
-      )}
-      {activeGame === 'EmojiCreativityChallenge' && (
-        <EmojiCreativityChallenge onComplete={handleGameComplete} onClose={handleGameClose} />
-      )}
-      {activeGame === 'EmojiMimicry' && (
-        <EmojiMimicry onComplete={handleGameComplete} onClose={handleGameClose} />
+      {activeGame === 'EmojiLogicGrid' && (
+        <EmojiLogicGrid onComplete={handleGameComplete} onClose={handleGameClose} />
       )}
     </div>
   );

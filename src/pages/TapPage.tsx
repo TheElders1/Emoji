@@ -6,65 +6,22 @@ import { Trophy } from 'lucide-react';
 
 interface TapPageProps {
   coins: number;
-  coinsPerTap: number;
-  coinsPerSecond: number;
-  totalTaps: number;
   totalEarned: number;
-  level: number;
-  upgrades: any[];
   onTap: () => void;
-  onUpgrade: (upgradeId: string) => void;
 }
 
 const TapPage: React.FC<TapPageProps> = ({
   coins,
-  coinsPerTap,
-  coinsPerSecond,
-  totalTaps,
   totalEarned,
-  level,
-  upgrades,
-  onTap,
-  onUpgrade
+  onTap
 }) => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
-      {/* Main Game Area */}
-      <div className="lg:col-span-2 space-y-4 lg:space-y-6">
-        <CoinTapper 
-          coins={coins} 
-          coinsPerTap={coinsPerTap} 
-          totalEarned={totalEarned}
-          onTap={onTap} 
-        />
-        
-        <StatsPanel 
-          totalTaps={totalTaps}
-          totalEarned={totalEarned}
-          coinsPerSecond={coinsPerSecond}
-          level={level}
-        />
-      </div>
-
-      {/* Upgrades Panel */}
-      <div className="space-y-4">
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
-          <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-            <Trophy className="w-6 h-6 text-yellow-400" />
-            Upgrades
-          </h2>
-          <div className="space-y-3">
-            {upgrades.map((upgrade) => (
-              <UpgradeCard
-                key={upgrade.id}
-                upgrade={upgrade}
-                canAfford={coins >= upgrade.cost}
-                onUpgrade={() => onUpgrade(upgrade.id)}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <CoinTapper 
+        coins={coins} 
+        totalEarned={totalEarned}
+        onTap={onTap} 
+      />
     </div>
   );
 };

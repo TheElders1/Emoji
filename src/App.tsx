@@ -65,52 +65,25 @@ interface Upgrade {
 function App() {
   const [currentPage, setCurrentPage] = useState<GameState['currentPage']>('tap');
   const [coins, setCoins] = useState(0);
-  const [coinsPerTap, setCoinsPerTap] = useState(1);
-  const [coinsPerSecond, setCoinsPerSecond] = useState(0);
-  const [totalTaps, setTotalTaps] = useState(0);
   const [totalEarned, setTotalEarned] = useState(0);
   const [level, setLevel] = useState(1);
   const [referrals, setReferrals] = useState(0);
   const [completedTasks, setCompletedTasks] = useState<string[]>([]);
 
-  const [upgrades, setUpgrades] = useState<Upgrade[]>(initialUpgrades);
 
   // Load user data on component mount
   useEffect(() => {
     const savedUser = loadUserData();
-    const savedUpgrades = loadUpgrades();
-    const savedProgress = loadGameProgress();
     
     if (savedUser) {
       setCoins(savedUser.coins);
-      setTotalTaps(savedUser.totalTaps);
       setTotalEarned(savedUser.totalEarned);
       setReferrals(savedUser.referrals);
       setCompletedTasks(savedUser.completedTasks);
-      setCoinsPerTap(savedUser.coinsPerTap || 1);
-      setCoinsPerSecond(savedUser.coinsPerSecond || 0);
       
       // Recalculate derived values
       const newLevel = Math.floor(savedUser.totalEarned / 1000) + 1;
       setLevel(newLevel);
-    }
-    
-    if (savedUpgrades) {
-      // Merge saved data with initial upgrades to restore icons
-      const restoredUpgrades = initialUpgrades.map(initialUpgrade => {
-        const savedUpgrade = savedUpgrades.find(saved => saved.id === initialUpgrade.id);
-        return savedUpgrade ? {
-          ...initialUpgrade,
-          owned: savedUpgrade.owned,
-          cost: savedUpgrade.cost
-        } : initialUpgrade;
-      });
-      setUpgrades(restoredUpgrades);
-    }
-    
-    if (savedProgress) {
-      setCoinsPerTap(savedProgress.coinsPerTap || 1);
-      setCoinsPerSecond(savedProgress.coinsPerSecond || 0);
     }
 
     // Get Telegram user info
@@ -122,49 +95,24 @@ function App() {
 
   // Save user data whenever it changes
   useEffect(() => {
-    // Create serializable versions of upgrades without React components
-    const serializableUpgrades = upgrades.map(({ icon, ...upgrade }) => upgrade);
-    
     const userData: User = {
       telegramId: telegramBot.getTelegramUser()?.id,
       username: telegramBot.getTelegramUser()?.username,
       firstName: telegramBot.getTelegramUser()?.first_name,
       coins,
       level,
-      totalTaps,
       totalEarned,
       referrals,
       rank: 'Rookie', // Will be calculated based on totalEarned
       joinedChannels: [],
       completedTasks,
-      coinsPerTap,
-      coinsPerSecond,
-      upgrades: serializableUpgrades
+      coinsPerTap: 1,
+      coinsPerSecond: 0,
+      upgrades: []
     };
     
     saveUserData(userData);
-    
-    // Save upgrades separately
-    saveUpgrades(serializableUpgrades);
-    
-    // Save game progress
-    saveGameProgress({
-      coinsPerTap,
-      coinsPerSecond
-    });
-  }, [coins, level, totalTaps, totalEarned, referrals, completedTasks, coinsPerTap, coinsPerSecond, upgrades]);
-
-  // Auto-earning effect
-  useEffect(() => {
-    if (coinsPerSecond > 0) {
-      const interval = setInterval(() => {
-        setCoins(prev => prev + coinsPerSecond);
-        setTotalEarned(prev => prev + coinsPerSecond);
-      }, 1000);
-
-      return () => clearInterval(interval);
-    }
-  }, [coinsPerSecond]);
+  }, [coins, level, totalEarned, referrals, completedTasks]);
 
   // Level calculation
   useEffect(() => {
@@ -173,39 +121,9 @@ function App() {
   }, [totalEarned]);
 
   const handleTap = useCallback(() => {
-    setCoins(prev => prev + coinsPerTap);
-    setTotalTaps(prev => prev + 1);
-    setTotalEarned(prev => prev + coinsPerTap);
-  }, [coinsPerTap]);
-
-  const handleUpgrade = useCallback((upgradeId: string) => {
-    setUpgrades(prev => prev.map(upgrade => {
-      if (upgrade.id === upgradeId && coins >= upgrade.cost) {
-        const newOwned = upgrade.owned + 1;
-        const newCost = Math.floor(upgrade.cost * 1.5);
-        
-        setCoins(current => current - upgrade.cost);
-        
-        // Apply upgrade effects
-        if (upgrade.id === 'tap-power') {
-          setCoinsPerTap(current => current + upgrade.multiplier);
-        } else if (upgrade.id === 'auto-miner') {
-          setCoinsPerSecond(current => current + upgrade.multiplier);
-        } else if (upgrade.id === 'boost-multiplier') {
-          setCoinsPerTap(current => Math.floor(current * upgrade.multiplier));
-        } else if (upgrade.id === 'social-power') {
-          setCoinsPerTap(current => current + upgrade.multiplier);
-        }
-        
-        return {
-          ...upgrade,
-          owned: newOwned,
-          cost: newCost
-        };
-      }
-      return upgrade;
-    }));
-  }, [coins]);
+    setCoins(prev => prev + 1);
+    setTotalEarned(prev => prev + 1);
+  }, []);
 
   const handleCompleteTask = useCallback((taskId: string, reward: number) => {
     if (!completedTasks.includes(taskId)) {
@@ -221,14 +139,8 @@ function App() {
         return (
           <TapPage
             coins={coins}
-            coinsPerTap={coinsPerTap}
-            coinsPerSecond={coinsPerSecond}
-            totalTaps={totalTaps}
             totalEarned={totalEarned}
-            level={level}
-            upgrades={upgrades}
             onTap={handleTap}
-            onUpgrade={handleUpgrade}
           />
         );
       case 'minigames':
