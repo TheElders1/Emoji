@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Coins } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { getRankTheme } from '../utils/rankThemes';
 
 interface CoinTapperProps {
   coins: number;
   totalEarned: number;
+  coinsPerTap: number;
+  coinsPerSecond: number;
   onTap: () => void;
 }
 
@@ -14,28 +15,20 @@ interface FloatingCoin {
   y: number;
 }
 
-const CoinTapper: React.FC<CoinTapperProps> = ({ coins, totalEarned, onTap }) => {
+const CoinTapper: React.FC<CoinTapperProps> = ({ 
+  coins, 
+  totalEarned, 
+  coinsPerTap,
+  coinsPerSecond,
+  onTap 
+}) => {
   const [isPressed, setIsPressed] = useState(false);
   const [floatingCoins, setFloatingCoins] = useState<FloatingCoin[]>([]);
   const [tapCount, setTapCount] = useState(0);
   
   const rankTheme = getRankTheme(totalEarned);
-  
-  // Get rank-based coin color
-  const getRankCoinColor = (totalEarned: number) => {
-    if (totalEarned >= 1000000000) return 'from-indigo-400 via-purple-500 to-pink-500'; // Lord
-    if (totalEarned >= 100000000) return 'from-pink-400 to-purple-600'; // Legendary
-    if (totalEarned >= 10000000) return 'from-orange-400 to-red-500'; // Grandmaster
-    if (totalEarned >= 1000000) return 'from-yellow-400 to-yellow-600'; // Master
-    if (totalEarned >= 100000) return 'from-purple-400 to-purple-600'; // Guru
-    if (totalEarned >= 10000) return 'from-blue-400 to-blue-600'; // Pro
-    if (totalEarned >= 1000) return 'from-green-400 to-green-600'; // Veteran
-    return 'from-gray-400 to-gray-600'; // Rookie
-  };
-  
-  const coinGradient = getRankCoinColor(totalEarned);
 
-  const handleTap = (event: React.MouseEvent) => {
+  const handleTap = useCallback((event: React.MouseEvent) => {
     onTap();
     setIsPressed(true);
     setTapCount(prev => prev + 1);
@@ -54,7 +47,7 @@ const CoinTapper: React.FC<CoinTapperProps> = ({ coins, totalEarned, onTap }) =>
     setFloatingCoins(prev => [...prev, newFloatingCoin]);
     
     setTimeout(() => setIsPressed(false), 150);
-  };
+  }, [onTap]);
 
   // Remove floating coins after animation
   useEffect(() => {
@@ -75,7 +68,7 @@ const CoinTapper: React.FC<CoinTapperProps> = ({ coins, totalEarned, onTap }) =>
   };
 
   return (
-    <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-4 sm:p-6 lg:p-8 border border-white/20 text-center relative overflow-hidden">
+    <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-4 sm:p-6 lg:p-8 border border-white/20 text-center relative overflow-hidden shadow-2xl">
       {/* Background effects */}
       <div className={`absolute inset-0 bg-gradient-to-br ${rankTheme.gradient}/10 rounded-3xl`} />
       
@@ -92,8 +85,8 @@ const CoinTapper: React.FC<CoinTapperProps> = ({ coins, totalEarned, onTap }) =>
           }}
         >
           <div className="flex items-center gap-1 text-yellow-400 font-bold text-lg">
-            <Coins className="w-5 h-5" />
-            +1
+            <span className="text-2xl">{rankTheme.emoji}</span>
+            +{coinsPerTap}
           </div>
         </div>
       ))}
@@ -105,31 +98,39 @@ const CoinTapper: React.FC<CoinTapperProps> = ({ coins, totalEarned, onTap }) =>
         <p className="text-white/60 mb-4 sm:mb-6 lg:mb-8 text-sm sm:text-base">Tap to earn coins!</p>
         
         <div className="flex justify-center mb-4 sm:mb-6 lg:mb-8">
-          <button
-            onClick={handleTap}
-            className={`relative w-64 h-64 rounded-full bg-gradient-to-br ${coinGradient} shadow-2xl transform transition-all duration-150 hover:scale-105 active:scale-95 ${
-              isPressed ? 'scale-95 shadow-lg' : 'shadow-2xl'
-            } w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64`}
-          >
-            <div className={`absolute inset-3 sm:inset-4 bg-gradient-to-br ${coinGradient} rounded-full flex items-center justify-center`}>
-              <Coins className="w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 text-white drop-shadow-lg" />
-            </div>
+          <div className="relative">
+            {/* Outer glow ring */}
+            <div className={`absolute inset-0 rounded-full bg-gradient-to-br ${rankTheme.coinGradient} opacity-30 scale-110 animate-pulse`} />
             
-            {/* Pulse effect */}
-            <div className={`absolute inset-0 rounded-full bg-gradient-to-br ${coinGradient} ${
-              isPressed ? 'animate-ping' : ''
-            }`} />
-          </button>
+            {/* Main coin button */}
+            <button
+              onClick={handleTap}
+              className={`relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 rounded-full bg-gradient-to-br ${rankTheme.coinGradient} shadow-2xl transform transition-all duration-150 hover:scale-105 active:scale-95 ${
+                isPressed ? 'scale-95 shadow-lg' : 'shadow-2xl'
+              } border-4 border-white/20`}
+            >
+              <div className={`absolute inset-3 sm:inset-4 bg-gradient-to-br ${rankTheme.coinGradient} rounded-full flex items-center justify-center border-2 border-white/10`}>
+                <span className="text-6xl sm:text-7xl lg:text-8xl drop-shadow-lg">
+                  {rankTheme.emoji}
+                </span>
+              </div>
+              
+              {/* Pulse effect */}
+              <div className={`absolute inset-0 rounded-full bg-gradient-to-br ${rankTheme.coinGradient} ${
+                isPressed ? 'animate-ping' : ''
+              }`} />
+            </button>
+          </div>
         </div>
         
-        <div className="flex items-center justify-center gap-4 text-white/80">
-          <div className="text-center">
-            <div className="text-xl sm:text-2xl font-bold text-yellow-400">+1</div>
+        <div className="flex items-center justify-center gap-6 text-white/80">
+          <div className="text-center bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+            <div className="text-xl sm:text-2xl font-bold text-yellow-400">+{coinsPerTap}</div>
             <div className="text-xs sm:text-sm">per tap</div>
           </div>
           
-          <div className="text-center">
-            <div className="text-xl sm:text-2xl font-bold text-green-400">0</div>
+          <div className="text-center bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+            <div className="text-xl sm:text-2xl font-bold text-green-400">{formatNumber(coinsPerSecond)}</div>
             <div className="text-xs sm:text-sm">per second</div>
           </div>
         </div>

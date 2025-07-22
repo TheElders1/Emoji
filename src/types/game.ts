@@ -13,10 +13,11 @@ export interface User {
   coinsPerTap: number;
   coinsPerSecond: number;
   upgrades: any[];
+  cards: any[];
 }
 
 export interface GameState {
-  currentPage: 'tap' | 'minigames' | 'tasks' | 'rank' | 'war';
+  currentPage: 'tap' | 'minigames' | 'cards' | 'tasks' | 'rank' | 'war';
   user: User;
 }
 
@@ -37,4 +38,31 @@ export interface Rank {
   maxEarnings: number;
   color: string;
   emoji: string;
+}
+
+export interface Upgrade {
+  id: string;
+  name: string;
+  description: string;
+  cost: number;
+  multiplier: number;
+  icon: React.ReactNode;
+  owned: number;
+  maxOwned?: number;
+}
+
+export interface Card {
+  id: string;
+  name: string;
+  emoji: string;
+  baseProfit: number;
+  baseCost: number;
+  level: number;
+  maxLevel: number;
+  category: string;
+  unlockRequirement?: {
+    cardId: string;
+    level: number;
+  };
+  description: string;
 }

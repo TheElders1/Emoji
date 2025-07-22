@@ -10,6 +10,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, onPageChange }) =>
   const navItems = [
     { id: 'tap' as const, label: 'Tap & Earn', emoji: '😎' },
     { id: 'minigames' as const, label: 'Mini Games', emoji: '🎮' },
+    { id: 'cards' as const, label: 'Cards', emoji: '🎴' },
     { id: 'tasks' as const, label: 'Tasks', emoji: '📋' },
     { id: 'rank' as const, label: 'Rank', emoji: '🏆' },
     { id: 'war' as const, label: 'War', emoji: '⚔️' }

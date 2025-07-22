@@ -4,18 +4,18 @@ class OpenRouterAI {
   private baseUrl: string;
 
   constructor() {
-    this.apiKey = import.meta.env.VITE_OPENROUTER_API_KEY || 'sk-or-v1-your-api-key-here';
+    this.apiKey = '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';
     this.baseUrl = 'https://openrouter.ai/api/v1';
   }
 
-  async generateQuizQuestions(category: string, count: number = 5): Promise<any[]> {
+  async generateCipherPuzzle(): Promise<any> {
     try {
       const response = await fetch(`${this.baseUrl}/chat/completions`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${this.apiKey}`,
           'Content-Type': 'application/json',
-          'HTTP-Referer': window.location.origin,
+          'HTTP-Referer': 'https://emoji-kombat.netlify.app/',
           'X-Title': 'Emoji Kombat'
         },
         body: JSON.stringify({
@@ -23,16 +23,16 @@ class OpenRouterAI {
           messages: [
             {
               role: 'user',
-              content: `Generate ${count} unique emoji quiz questions for category "${category}". Return as JSON array with format: [{"emojis": "🎬🦁👑", "answer": "The Lion King", "options": ["The Lion King", "Madagascar", "Jungle Book", "Tarzan"], "category": "movie", "difficulty": "Easy"}]. Make each question unique and engaging.`
+              content: `Generate a unique emoji cipher puzzle. Return as JSON with format: {"cipher": "🦁🍎🌙🐘", "answer": "LOVE", "hint": "🦁=L, 🍎=O, 🌙=V, 🐘=E", "difficulty": "Easy"}. Make it challenging but solvable.`
             }
           ],
-          max_tokens: 2000,
+          max_tokens: 500,
           temperature: 0.8
         })
       });
 
       if (!response.ok) {
-        throw new Error('Failed to generate questions');
+        throw new Error('Failed to generate cipher puzzle');
       }
 
       const data = await response.json();
@@ -41,23 +41,22 @@ class OpenRouterAI {
       try {
         return JSON.parse(content);
       } catch {
-        // Fallback to static questions if AI fails
-        return this.getFallbackQuestions(category, count);
+        return this.getFallbackCipher();
       }
     } catch (error) {
       console.error('OpenRouter AI Error:', error);
-      return this.getFallbackQuestions(category, count);
+      return this.getFallbackCipher();
     }
   }
 
-  async generateStoryPrompts(count: number = 5): Promise<any[]> {
+  async generateEquationPuzzle(): Promise<any> {
     try {
       const response = await fetch(`${this.baseUrl}/chat/completions`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${this.apiKey}`,
           'Content-Type': 'application/json',
-          'HTTP-Referer': window.location.origin,
+          'HTTP-Referer': 'https://emoji-kombat.netlify.app/',
           'X-Title': 'Emoji Kombat'
         },
         body: JSON.stringify({
@@ -65,16 +64,16 @@ class OpenRouterAI {
           messages: [
             {
               role: 'user',
-              content: `Generate ${count} unique emoji story prompts. Return as JSON array with format: [{"emojis": "🌅🏃‍♂️💪🥵💦", "answer": "Morning jog workout", "options": ["Morning jog workout", "Running from danger", "Hot summer day", "Gym training"], "difficulty": "Easy"}]. Each should tell a clear story through emojis.`
+              content: `Generate a unique emoji equation puzzle. Return as JSON with format: {"equations": ["🍌 + 🍌 = 8", "🍎 + 🍎 = 6", "🍌 - 🍎 = ?"], "answer": "1", "solution": "🍌 = 4, 🍎 = 3, so 4 - 3 = 1", "difficulty": "Easy"}. Create new emojis and values each time.`
             }
           ],
-          max_tokens: 1500,
+          max_tokens: 500,
           temperature: 0.9
         })
       });
 
       if (!response.ok) {
-        throw new Error('Failed to generate story prompts');
+        throw new Error('Failed to generate equation puzzle');
       }
 
       const data = await response.json();
@@ -83,22 +82,22 @@ class OpenRouterAI {
       try {
         return JSON.parse(content);
       } catch {
-        return this.getFallbackStories(count);
+        return this.getFallbackEquation();
       }
     } catch (error) {
       console.error('OpenRouter AI Error:', error);
-      return this.getFallbackStories(count);
+      return this.getFallbackEquation();
     }
   }
 
-  async generateRiddles(count: number = 5): Promise<any[]> {
+  async generateLogicPuzzle(): Promise<any> {
     try {
       const response = await fetch(`${this.baseUrl}/chat/completions`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${this.apiKey}`,
           'Content-Type': 'application/json',
-          'HTTP-Referer': window.location.origin,
+          'HTTP-Referer': 'https://emoji-kombat.netlify.app/',
           'X-Title': 'Emoji Kombat'
         },
         body: JSON.stringify({
@@ -106,16 +105,16 @@ class OpenRouterAI {
           messages: [
             {
               role: 'user',
-              content: `Generate ${count} unique emoji riddles. Return as JSON array with format: [{"emojis": "🌙💤😴", "question": "I come when the sun goes down, bringing rest to all around. What am I?", "answer": "Night", "options": ["Night", "Sleep", "Dream", "Bed"], "hint": "It's the opposite of day", "difficulty": "Easy"}]. Make them challenging but solvable.`
+              content: `Generate a unique emoji logic grid puzzle. Return as JSON with format: {"clues": ["The 🧑‍🚀 eats 🍕 in the 🚀", "The 👨‍⚕️ drinks ☕ in the 🏥"], "questions": [{"question": "Who eats pizza?", "answer": "🧑‍🚀", "options": ["🧑‍🚀", "👨‍⚕️", "👨‍🍳"]}], "difficulty": "Easy"}. Create unique scenarios each time.`
             }
           ],
-          max_tokens: 2000,
+          max_tokens: 800,
           temperature: 0.8
         })
       });
 
       if (!response.ok) {
-        throw new Error('Failed to generate riddles');
+        throw new Error('Failed to generate logic puzzle');
       }
 
       const data = await response.json();
@@ -124,58 +123,112 @@ class OpenRouterAI {
       try {
         return JSON.parse(content);
       } catch {
-        return this.getFallbackRiddles(count);
+        return this.getFallbackLogic();
       }
     } catch (error) {
       console.error('OpenRouter AI Error:', error);
-      return this.getFallbackRiddles(count);
+      return this.getFallbackLogic();
     }
   }
 
-  private getFallbackQuestions(category: string, count: number): any[] {
-    const fallback = [
+  async generateReferralLink(username: string): Promise<string> {
+    try {
+      const response = await fetch(`${this.baseUrl}/chat/completions`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.apiKey}`,
+          'Content-Type': 'application/json',
+          'HTTP-Referer': 'https://emoji-kombat.netlify.app/',
+          'X-Title': 'Emoji Kombat'
+        },
+        body: JSON.stringify({
+          model: 'meta-llama/llama-3.1-8b-instruct:free',
+          messages: [
+            {
+              role: 'user',
+              content: `Generate a unique referral message for user "${username}" for Emoji Kombat game. Include emojis and make it engaging. Keep it under 200 characters. Include the link https://emoji-kombat.netlify.app/?ref=${username}`
+            }
+          ],
+          max_tokens: 300,
+          temperature: 0.9
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate referral link');
+      }
+
+      const data = await response.json();
+      const content = data.choices[0]?.message?.content;
+      
+      return content || this.getFallbackReferral(username);
+    } catch (error) {
+      console.error('OpenRouter AI Error:', error);
+      return this.getFallbackReferral(username);
+    }
+  }
+
+  private getFallbackCipher(): any {
+    const fallbacks = [
       {
-        emojis: "🦁👑🌍",
-        answer: "The Lion King",
-        options: ["The Lion King", "Madagascar", "Jungle Book", "Tarzan"],
-        category: "movie",
-        difficulty: "Easy"
+        cipher: '🦁🍎🌙🐘',
+        answer: 'LOVE',
+        hint: '🦁=L, 🍎=O, 🌙=V, 🐘=E',
+        difficulty: 'Easy'
       },
       {
-        emojis: "🕷️👨🏠",
-        answer: "Spider-Man",
-        options: ["Batman", "Spider-Man", "Superman", "Iron Man"],
-        category: "movie",
-        difficulty: "Easy"
+        cipher: '🌟🍎🌙🐘 🥚🌙🦁🐘🌙',
+        answer: 'SAVE WORLD',
+        hint: 'Each emoji represents a letter',
+        difficulty: 'Medium'
       }
     ];
-    return fallback.slice(0, count);
+    return fallbacks[Math.floor(Math.random() * fallbacks.length)];
   }
 
-  private getFallbackStories(count: number): any[] {
-    const fallback = [
+  private getFallbackEquation(): any {
+    const fallbacks = [
       {
-        emojis: "🌅🏃‍♂️💪🥵💦",
-        answer: "Morning jog workout",
-        options: ["Morning jog workout", "Running from danger", "Hot summer day", "Gym training"],
-        difficulty: "Easy"
+        equations: ['🍌 + 🍌 = 8', '🍎 + 🍎 = 6', '🍌 - 🍎 = ?'],
+        answer: '1',
+        solution: '🍌 = 4, 🍎 = 3, so 4 - 3 = 1',
+        difficulty: 'Easy'
+      },
+      {
+        equations: ['🐶 + 🐱 = 12', '🐶 - 🐱 = 4', '🐶 × 🐱 = ?'],
+        answer: '32',
+        solution: '🐶 = 8, 🐱 = 4, so 8 × 4 = 32',
+        difficulty: 'Medium'
       }
     ];
-    return fallback.slice(0, count);
+    return fallbacks[Math.floor(Math.random() * fallbacks.length)];
   }
 
-  private getFallbackRiddles(count: number): any[] {
-    const fallback = [
+  private getFallbackLogic(): any {
+    const fallbacks = [
       {
-        emojis: "🌙💤😴",
-        question: "I come when the sun goes down, bringing rest to all around. What am I?",
-        answer: "Night",
-        options: ["Night", "Sleep", "Dream", "Bed"],
-        hint: "It's the opposite of day",
-        difficulty: "Easy"
+        clues: [
+          'The 🧑‍🚀 eats 🍕 in the 🚀',
+          'The 👨‍⚕️ drinks ☕ in the 🏥',
+          'The 👨‍🍳 eats 🍝 in the 🍴'
+        ],
+        questions: [
+          { question: 'Who eats pizza?', answer: '🧑‍🚀', options: ['🧑‍🚀', '👨‍⚕️', '👨‍🍳'] },
+          { question: 'Where does the chef work?', answer: '🍴', options: ['🚀', '🏥', '🍴'] }
+        ],
+        difficulty: 'Easy'
       }
     ];
-    return fallback.slice(0, count);
+    return fallbacks[0];
+  }
+
+  private getFallbackReferral(username: string): string {
+    const messages = [
+      `🚀 Join me in Emoji Kombat! Tap your way to crypto riches! 💎 https://emoji-kombat.netlify.app/?ref=${username}`,
+      `🎮 Challenge your brain with hard emoji puzzles! Join ${username} in Emoji Kombat! 🧠 https://emoji-kombat.netlify.app/?ref=${username}`,
+      `💰 Earn $EMOJI coins by solving puzzles! ${username} invited you! 🎯 https://emoji-kombat.netlify.app/?ref=${username}`
+    ];
+    return messages[Math.floor(Math.random() * messages.length)];
   }
 }
 
