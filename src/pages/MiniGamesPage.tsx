@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { Gamepad2, Star, Trophy, Brain, Zap } from 'lucide-react';
+import { Gamepad2, Star, Trophy, Brain, Zap, X } from 'lucide-react';
 import EmojiCipher from '../components/minigames/EmojiCipher';
 import EmojiEquationSolver from '../components/minigames/EmojiEquationSolver';
 import EmojiLogicGrid from '../components/minigames/EmojiLogicGrid';
+import EmojiSequencePuzzle from '../components/minigames/EmojiSequencePuzzle';
+import EmojiMirrorFlip from '../components/minigames/EmojiMirrorFlip';
+import EmojiChatDecryption from '../components/minigames/EmojiChatDecryption';
 
 interface MiniGamesPageProps {
   onEarnCoins: (amount: number) => void;
@@ -19,7 +22,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '🔐',
       difficulty: 'Hard',
       reward: 200,
-      component: 'EmojiCipher'
+      component: 'EmojiCipher',
+      status: 'available'
     },
     {
       id: 2,
@@ -28,7 +32,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '🧩',
       difficulty: 'Hard',
       reward: 300,
-      component: 'EmojiEquationSolver'
+      component: 'EmojiEquationSolver',
+      status: 'available'
     },
     {
       id: 3,
@@ -37,7 +42,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '🎯',
       difficulty: 'Hard',
       reward: 400,
-      component: 'EmojiLogicGrid'
+      component: 'EmojiLogicGrid',
+      status: 'available'
     },
     {
       id: 4,
@@ -46,7 +52,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '🧠',
       difficulty: 'Hard',
       reward: 250,
-      component: null
+      component: 'EmojiSequencePuzzle',
+      status: 'available'
     },
     {
       id: 5,
@@ -55,7 +62,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '🪞',
       difficulty: 'Hard',
       reward: 220,
-      component: null
+      component: 'EmojiMirrorFlip',
+      status: 'available'
     },
     {
       id: 6,
@@ -64,7 +72,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '💬',
       difficulty: 'Hard',
       reward: 280,
-      component: null
+      component: 'EmojiChatDecryption',
+      status: 'available'
     },
     {
       id: 7,
@@ -73,7 +82,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '⌛',
       difficulty: 'Hard',
       reward: 320,
-      component: null
+      component: null,
+      status: 'coming_soon'
     },
     {
       id: 8,
@@ -82,7 +92,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '🔄',
       difficulty: 'Hard',
       reward: 260,
-      component: null
+      component: null,
+      status: 'coming_soon'
     },
     {
       id: 9,
@@ -91,7 +102,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '🔍',
       difficulty: 'Hard',
       reward: 180,
-      component: null
+      component: null,
+      status: 'coming_soon'
     },
     {
       id: 10,
@@ -100,7 +112,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '🔠',
       difficulty: 'Hard',
       reward: 240,
-      component: null
+      component: null,
+      status: 'coming_soon'
     },
     {
       id: 11,
@@ -109,7 +122,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '🔐',
       difficulty: 'Hard',
       reward: 350,
-      component: null
+      component: null,
+      status: 'coming_soon'
     },
     {
       id: 12,
@@ -118,7 +132,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '🧮',
       difficulty: 'Hard',
       reward: 380,
-      component: null
+      component: null,
+      status: 'coming_soon'
     },
     {
       id: 13,
@@ -127,7 +142,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '🕵️',
       difficulty: 'Hard',
       reward: 420,
-      component: null
+      component: null,
+      status: 'coming_soon'
     },
     {
       id: 14,
@@ -136,7 +152,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '📦',
       difficulty: 'Hard',
       reward: 300,
-      component: null
+      component: null,
+      status: 'coming_soon'
     },
     {
       id: 15,
@@ -145,7 +162,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '🎲',
       difficulty: 'Hard',
       reward: 290,
-      component: null
+      component: null,
+      status: 'coming_soon'
     },
     {
       id: 16,
@@ -154,7 +172,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '🧊',
       difficulty: 'Hard',
       reward: 270,
-      component: null
+      component: null,
+      status: 'coming_soon'
     },
     {
       id: 17,
@@ -163,7 +182,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '🔂',
       difficulty: 'Hard',
       reward: 230,
-      component: null
+      component: null,
+      status: 'coming_soon'
     },
     {
       id: 18,
@@ -172,7 +192,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '🎓',
       difficulty: 'Hard',
       reward: 360,
-      component: null
+      component: null,
+      status: 'coming_soon'
     },
     {
       id: 19,
@@ -181,7 +202,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '🔥',
       difficulty: 'Hard',
       reward: 450,
-      component: null
+      component: null,
+      status: 'coming_soon'
     },
     {
       id: 20,
@@ -190,7 +212,8 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       icon: '🚫',
       difficulty: 'Hard',
       reward: 340,
-      component: null
+      component: null,
+      status: 'coming_soon'
     }
   ];
 
@@ -199,7 +222,7 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
   };
 
   const handleGameSelect = (game: any) => {
-    if (game.component) {
+    if (game.component && game.status === 'available') {
       setActiveGame(game.component);
     } else {
       // Show coming soon modal for unimplemented games
@@ -216,6 +239,9 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
     setActiveGame(null);
   };
 
+  const availableGames = games.filter(game => game.status === 'available');
+  const comingSoonGames = games.filter(game => game.status === 'coming_soon');
+
   return (
     <div className="space-y-6">
       <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
@@ -227,43 +253,81 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {games.map((game) => (
-            <div
-              key={game.id}
-              className="bg-white/10 rounded-xl p-4 border border-white/20 hover:bg-white/20 transition-all duration-200 cursor-pointer group transform hover:scale-105"
-              onClick={() => handleGameSelect(game)}
-            >
-              <div className="text-center mb-3">
-                <div className="text-4xl mb-2">{game.icon}</div>
-                <h3 className="font-bold text-white group-hover:text-yellow-400 transition-colors text-sm">
-                  {game.title}
-                </h3>
-              </div>
-              
-              <p className="text-xs text-white/60 mb-3 text-center line-clamp-2">
-                {game.description}
-              </p>
-              
-              <div className="flex items-center justify-between">
-                <span className={`text-xs px-2 py-1 rounded-full ${getDifficultyColor(game.difficulty)}`}>
-                  {game.difficulty}
-                </span>
-                <div className="flex items-center gap-1 text-yellow-400">
-                  <Star className="w-3 h-3" />
-                  <span className="text-xs font-bold">{game.reward}</span>
+        {/* Available Games */}
+        <div className="mb-8">
+          <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+            <Zap className="w-5 h-5 text-green-400" />
+            Available Now ({availableGames.length})
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {availableGames.map((game) => (
+              <div
+                key={game.id}
+                className="bg-white/10 rounded-xl p-4 border border-white/20 hover:bg-white/20 transition-all duration-200 cursor-pointer group transform hover:scale-105"
+                onClick={() => handleGameSelect(game)}
+              >
+                <div className="text-center mb-3">
+                  <div className="text-4xl mb-2">{game.icon}</div>
+                  <h3 className="font-bold text-white group-hover:text-yellow-400 transition-colors text-sm">
+                    {game.title}
+                  </h3>
                 </div>
-              </div>
-              
-              {!game.component && (
+                
+                <p className="text-xs text-white/60 mb-3 text-center line-clamp-2">
+                  {game.description}
+                </p>
+                
+                <div className="flex items-center justify-between">
+                  <span className={`text-xs px-2 py-1 rounded-full ${getDifficultyColor(game.difficulty)}`}>
+                    {game.difficulty}
+                  </span>
+                  <div className="flex items-center gap-1 text-yellow-400">
+                    <Star className="w-3 h-3" />
+                    <span className="text-xs font-bold">{game.reward}</span>
+                  </div>
+                </div>
+                
                 <div className="mt-2 text-center">
-                  <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded-full">
-                    Coming Soon
+                  <span className="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-full">
+                    Play Now
                   </span>
                 </div>
-              )}
-            </div>
-          ))}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Coming Soon Games */}
+        <div>
+          <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+            <Trophy className="w-5 h-5 text-blue-400" />
+            Coming Soon ({comingSoonGames.length})
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+            {comingSoonGames.map((game) => (
+              <div
+                key={game.id}
+                className="bg-white/5 rounded-xl p-3 border border-white/10 opacity-70 cursor-pointer hover:opacity-90 transition-opacity"
+                onClick={() => handleGameSelect(game)}
+              >
+                <div className="text-center">
+                  <div className="text-3xl mb-2">{game.icon}</div>
+                  <h3 className="font-bold text-white text-xs mb-1">
+                    {game.title}
+                  </h3>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded-full">
+                      Soon
+                    </span>
+                    <div className="flex items-center gap-1 text-yellow-400">
+                      <Star className="w-3 h-3" />
+                      <span className="text-xs font-bold">{game.reward}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -281,12 +345,12 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
           </div>
           
           <div className="bg-white/10 rounded-lg p-3 text-center">
-            <div className="text-2xl font-bold text-yellow-400">3</div>
+            <div className="text-2xl font-bold text-green-400">{availableGames.length}</div>
             <div className="text-xs text-white/60">Available Now</div>
           </div>
           
           <div className="bg-white/10 rounded-lg p-3 text-center">
-            <div className="text-2xl font-bold text-green-400">Hard</div>
+            <div className="text-2xl font-bold text-red-400">Hard</div>
             <div className="text-xs text-white/60">Difficulty</div>
           </div>
           
@@ -306,6 +370,15 @@ const MiniGamesPage: React.FC<MiniGamesPageProps> = ({ onEarnCoins }) => {
       )}
       {activeGame === 'EmojiLogicGrid' && (
         <EmojiLogicGrid onComplete={handleGameComplete} onClose={handleGameClose} />
+      )}
+      {activeGame === 'EmojiSequencePuzzle' && (
+        <EmojiSequencePuzzle onComplete={handleGameComplete} onClose={handleGameClose} />
+      )}
+      {activeGame === 'EmojiMirrorFlip' && (
+        <EmojiMirrorFlip onComplete={handleGameComplete} onClose={handleGameClose} />
+      )}
+      {activeGame === 'EmojiChatDecryption' && (
+        <EmojiChatDecryption onComplete={handleGameComplete} onClose={handleGameClose} />
       )}
     </div>
   );

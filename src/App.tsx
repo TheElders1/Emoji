@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Coins, Zap, TrendingUp, Users, Trophy, Star } from 'lucide-react';
+import { Coins, Zap, TrendingUp, Users, Trophy, Star, CreditCard } from 'lucide-react';
 import Header from './components/Header';
 import Navigation from './components/Navigation';
 import TapPage from './pages/TapPage';
@@ -185,6 +185,20 @@ function App() {
     console.log('Upgrade card:', cardId);
   }, []);
 
+  const handleEarnCoins = useCallback((amount: number) => {
+    setCoins(prev => prev + amount);
+    setTotalEarned(prev => prev + amount);
+  }, []);
+
+  // Auto-generate hourly profit from cards
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // This would calculate hourly profit from cards
+      // For now, we'll add a small amount every minute for demo
+    }, 60000);
+    return () => clearInterval(interval);
+  }, [cards]);
+
   const renderCurrentPage = () => {
     switch (currentPage) {
       case 'tap':
@@ -201,10 +215,7 @@ function App() {
           />
         );
       case 'minigames':
-        return <MiniGamesPage onEarnCoins={(amount) => {
-          setCoins(prev => prev + amount);
-          setTotalEarned(prev => prev + amount);
-        }} />;
+        return <MiniGamesPage onEarnCoins={handleEarnCoins} />;
       case 'cards':
         return (
           <CardsPage
